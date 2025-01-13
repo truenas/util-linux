@@ -1,0 +1,26 @@
+From 97ab9f9b13af53191aa9844767ea12594af07e55 Mon Sep 17 00:00:00 2001
+From: Ameer Hamza <ahamza@ixsystems.com>
+Date: Thu, 21 Nov 2024 17:18:52 +0500
+Subject: [PATCH 2/2] libblkid: zfs: fix overflow warning [coverity scan]
+
+Signed-off-by: Ameer Hamza <ahamza@ixsystems.com>
+---
+ libblkid/src/superblocks/zfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libblkid/src/superblocks/zfs.c b/libblkid/src/superblocks/zfs.c
+index e68f8ae26..7aea679e5 100644
+--- a/libblkid/src/superblocks/zfs.c
++++ b/libblkid/src/superblocks/zfs.c
+@@ -348,7 +348,7 @@ static int probe_zfs(blkid_probe pr,
+ 	 * Zero out whole nvlist header including fisrt nvpair size
+ 	 */
+ 	if (blkid_probe_set_magic(pr, offset, sizeof(struct nvs_header_t),
+-	    (unsigned char *) &label->nvh_first_size))
++	    (unsigned char *) label))
+ 		return (1);
+ 
+ #if 0
+-- 
+2.43.0
+
